@@ -90,25 +90,62 @@ class Graph:
                     heapq.heappush(q,(alt,v))
         return (dist,prev)
 
+    def isBipartite(self) -> bool:
+        red_q = [1]
+        blue_q = []
+        red = {1}
+        blue = set()
+        while red_q or blue_q:
+            while red_q:
+                curr = red_q.pop(0)
+                for (node,_) in sorted(self.adj_list[curr]):
+                    if node not in blue:
+                        blue_q.append(node)
+                        blue.add(node)
+                    if node in red:
+                        return False
+            while blue_q:
+                curr = blue_q.pop(0)
+                for (node,_) in sorted(self.adj_list[curr]):
+                    if node not in red:
+                        red_q.append(node)
+                        red.add(node)
+                    if node in blue:
+                        return False
+            
+        return True
 
 
+# g = Graph(7,False)
+# g.add_edge(1,2,4)
+# g.add_edge(1,3,5)
+# g.add_edge(1,4,6)
+# g.add_edge(2,3)
+# g.add_edge(2,5)
+# g.add_edge(2,6)
+# g.add_edge(2,7)
+# g.print_list()
+# print("------------")
+# print(g.dfs())
+# print("------------")
+# print(g.bfs())
+# print("------------")
+# g.prims().print_list()
+# print("------------")
+# print("------------")
+# print("------------")
+# print(g.dijkstra(5))
+# print(g.isBipartite())
 
-g = Graph(7,False)
-g.add_edge(1,2,4)
-g.add_edge(1,3,5)
-g.add_edge(1,4,6)
-g.add_edge(2,3)
-g.add_edge(2,5)
-g.add_edge(2,6)
-g.add_edge(2,7)
-g.print_list()
-print("------------")
-print(g.dfs())
-print("------------")
-print(g.bfs())
-print("------------")
-g.prims().print_list()
-print("------------")
-print("------------")
-print("------------")
-print(g.dijkstra(5))
+d = Graph(6,False)
+d.add_edge(1,2)
+d.add_edge(1,4)
+d.add_edge(1,6)
+d.add_edge(3,2)
+d.add_edge(3,4)
+d.add_edge(3,6)
+d.add_edge(5,2)
+d.add_edge(5,4)
+d.add_edge(5,6)
+d.print_list()
+print(d.isBipartite())
