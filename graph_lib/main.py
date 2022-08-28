@@ -112,8 +112,30 @@ class Graph:
                         red.add(node)
                     if node in blue:
                         return False
-            
         return True
+
+    def minColours(self) -> int:
+        max_colour = 1
+        q = [1]
+        coloured = {1:1}
+        while q:
+            curr = q.pop(0)
+            for (node,_) in sorted(self.adj_list[curr]):
+                if node not in coloured:
+                    q.append(node)
+                    coloured[node] = 2 if coloured[curr] == 1 else 1
+                    max_colour = max(max_colour,2)
+                else:
+                    if coloured[node] == coloured[curr]:
+                        if coloured[node] > 2:
+                            coloured[node] += 1
+                            max_colour = max(max_colour,coloured[node])
+                        else:
+                            coloured[node] = 3
+                            max_colour = max(max_colour,3)
+        return max_colour
+            
+
 
 
 # g = Graph(7,False)
@@ -137,15 +159,23 @@ class Graph:
 # print(g.dijkstra(5))
 # print(g.isBipartite())
 
-d = Graph(6,False)
-d.add_edge(1,2)
-d.add_edge(1,4)
-d.add_edge(1,6)
-d.add_edge(3,2)
-d.add_edge(3,4)
-d.add_edge(3,6)
-d.add_edge(5,2)
-d.add_edge(5,4)
-d.add_edge(5,6)
-d.print_list()
-print(d.isBipartite())
+# d = Graph(6,False)
+# # K_6 graph
+# d.add_edge(1,2)
+# d.add_edge(1,3)
+# d.add_edge(1,4)
+# d.add_edge(1,5)
+# d.add_edge(1,6)
+# d.add_edge(2,3)
+# d.add_edge(2,4)
+# d.add_edge(2,5)
+# d.add_edge(2,6)
+# d.add_edge(3,4)
+# d.add_edge(3,5)
+# d.add_edge(3,6)
+# d.add_edge(4,5)
+# d.add_edge(4,6)
+# d.add_edge(5,6)
+# d.print_list()
+# print(d.isBipartite())
+# print(d.minColours())
