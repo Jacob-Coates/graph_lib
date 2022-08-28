@@ -64,21 +64,51 @@ class Graph:
                     heapq.heappush(pq,(c,next_node,n))
             been.add(next_node)
         return new_g
+    
+    def dijkstra(self,source:int=1):
+        dist = {}
+        prev = {}
+        dist[source] = 0
+
+        q = []
+        heapq.heapify(q)
+
+
+        for v in self.vertices:
+            if v != source:
+                dist[v] =  float('inf')
+                prev[v] = None
+            heapq.heappush(q,(dist[v],v))
+
+        while q:
+            (dis,u) = heapq.heappop(q)
+            for (v,edge_cost) in self.adj_list[u]:
+                alt = dist[u] + edge_cost
+                if alt < dist[v]:
+                    dist[v] = alt
+                    prev[v] = u
+                    heapq.heappush(q,(alt,v))
+        return (dist,prev)
 
 
 
-# g = Graph(7,False)
-# g.add_edge(1,2,4)
-# g.add_edge(1,3,5)
-# g.add_edge(1,4,6)
-# g.add_edge(2,3)
-# g.add_edge(2,5)
-# g.add_edge(2,6)
-# g.add_edge(2,7)
-# g.print_list()
-# print("------------")
-# print(g.dfs())
-# print("------------")
-# print(g.bfs())
-# print("------------")
-# g.prims().print_list()
+
+g = Graph(7,False)
+g.add_edge(1,2,4)
+g.add_edge(1,3,5)
+g.add_edge(1,4,6)
+g.add_edge(2,3)
+g.add_edge(2,5)
+g.add_edge(2,6)
+g.add_edge(2,7)
+g.print_list()
+print("------------")
+print(g.dfs())
+print("------------")
+print(g.bfs())
+print("------------")
+g.prims().print_list()
+print("------------")
+print("------------")
+print("------------")
+print(g.dijkstra(5))
